@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alyona Zhilina — portfolio prototype (Chapters)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#111111;--ink:#F2EFEA;--muted:#A8A49C;--faint:#8E8A84;--line:#2A2A2A;--panel:#1A1A1A;--accent:#E8643C;--serif:Newsreader,'Times New Roman',serif;--sans:Inter,system-ui,sans-serif}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--ink)}
+img{display:block}
+[hidden]{display:none !important}
+.serif{font-family:var(--serif)}
+em{font-weight:400}
+
+/* fixed chrome */
+.rail{position:fixed;left:28px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;gap:14px;z-index:5}
+.rail button{all:unset;cursor:pointer;display:flex;width:22px;height:22px;align-items:center;justify-content:center;position:relative}
+.rail button:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:50%}
+.rail .tip{position:absolute;left:32px;white-space:nowrap;font-size:12px;color:var(--muted);opacity:0;pointer-events:none;transition:opacity .2s}
+.rail button:hover .tip,.rail button:focus-visible .tip{opacity:1}
+.mark{transform:scale(.7);transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+.mark circle{fill:rgba(242,239,234,0);stroke:#5E5B57;transition:fill .3s ease,stroke .3s ease}
+.mark path{stroke-dasharray:12;stroke-dashoffset:12;transition:stroke-dashoffset .3s ease .18s}
+.on .mark{transform:scale(1)}
+.on .mark circle{fill:var(--ink);stroke:var(--ink)}
+.on .mark path{stroke-dashoffset:0}
+.pill-btn{position:fixed;top:20px;z-index:5;font:13px var(--sans);color:#D9D5CE;text-decoration:none;padding:10px 16px;border:1px solid #2E2E2E;border-radius:999px;background:#151515;cursor:pointer}
+.pill-btn:hover{border-color:var(--faint)}
+.open-roles{position:fixed;bottom:20px;right:24px;z-index:5;margin:0;display:flex;align-items:center;gap:8px;font-size:12px;color:#D9D5CE;padding:8px 14px;border-radius:10px;background:#1C1C1C;border:1px solid var(--line)}
+.open-roles i{width:7px;height:7px;border-radius:50%;background:var(--accent)}
+@media (max-width:900px){.rail{display:none}}
+
+/* shared blocks */
+.connector{display:block;margin:24px auto 0}
+.oval{margin:0;padding:16px 64px;border:1px solid #3A3835;border-radius:50%;font-family:var(--serif);font-style:italic;font-size:20px;color:var(--muted);text-align:center}
+.oval b{font-weight:500;color:var(--ink)}
+.h-case{margin:72px 0 0;max-width:880px;text-align:center;font-family:var(--serif);font-weight:500;font-size:clamp(36px,4.4vw,60px);line-height:1.06;letter-spacing:-.02em;transition:color .3s}
+.lede{margin:16px 0 0;max-width:600px;text-align:center;font-size:16px;line-height:1.6;color:var(--muted)}
+.cta{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0 8px 0 18px;border:0;border-radius:999px;background:var(--ink);color:#111;font:500 14px var(--sans);text-decoration:none;cursor:pointer}
+.cta:hover{background:#fff}
+.cta span{width:28px;height:28px;border-radius:50%;background:#111;color:var(--ink);display:flex;align-items:center;justify-content:center;font-size:14px}
+.ghost{display:inline-flex;align-items:center;min-height:48px;padding:0 24px;border-radius:999px;border:1px solid #3A3835;background:none;color:var(--ink);font:15px var(--sans);text-decoration:none;cursor:pointer}
+.ghost:hover{border-color:var(--faint)}
+.panel{position:relative;width:88%;max-width:600px;margin:-96px auto 0;background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:0 24px 60px rgba(0,0,0,.5);padding:24px 24px 20px}
+.panel .label{margin:0;font-size:14px;color:var(--faint)}
+.panel .text{margin:8px 0 0;font-size:17px;line-height:1.5}
+.panel .foot{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:20px;padding-top:16px;border-top:1px solid var(--line);flex-wrap:wrap}
+.panel .tags{display:flex;gap:6px;flex-wrap:wrap}
+.panel .tags span{font-size:12px;color:#D9D5CE;padding:5px 10px;border:1px solid #3A3835;border-radius:999px}
+
+/* home */
+.hero{padding:150px 24px 0;display:flex;flex-direction:column;align-items:center;text-align:center}
+.oval.small{font-size:18px;padding:14px 56px}
+.hero h1{margin:48px 0 0;max-width:760px;font-family:var(--serif);font-weight:500;font-size:clamp(44px,5.6vw,76px);line-height:1.02;letter-spacing:-.025em}
+.hero .lede{margin-top:24px;max-width:520px;font-size:17px}
+.links{display:flex;gap:10px;margin-top:32px;flex-wrap:wrap;justify-content:center}
+.links .ghost{min-height:44px;padding:0 20px;font-size:14px}
+.postcard{margin-top:64px;width:100%;max-width:480px;background:var(--ink);padding:14px;transform:rotate(-1.5deg);box-shadow:0 40px 90px rgba(0,0,0,.55)}
+.print{aspect-ratio:1/1;overflow:hidden}
+.print img{width:100%;height:100%;object-fit:cover;object-position:center 100%}
+.caption{margin:10px 2px 0;display:flex;justify-content:space-between;font-family:var(--serif);font-style:italic;font-size:14px;color:#5E5B57}
+.case{padding:0 24px;display:flex;flex-direction:column;align-items:center}
+.cover-wrap{width:100%;max-width:920px;margin-top:48px;position:relative}
+.cover{aspect-ratio:16/10;border-radius:28px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+.cover>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cover .dim{position:absolute;inset:0;background:rgba(17,17,17,.4)}
+.screen{position:relative;width:72%;aspect-ratio:16/10;border-radius:12px;background:rgba(242,239,234,.92);box-shadow:0 30px 60px rgba(0,0,0,.35);padding:10px;margin-bottom:64px}
+.slot{height:100%;border:1.5px dashed #B8B3AA;border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+.slot b{font-size:14px;font-weight:500;color:#3A3835}.slot small{font-size:12px;color:#6B6862}
+.cover .veil{position:absolute;inset:0;background:rgba(17,17,17,.45);opacity:0;transition:opacity .4s}
+.cover .tick{position:absolute;top:24px;left:24px;width:40px;height:40px;border-radius:50%;background:var(--ink);display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.6);transition:opacity .3s,transform .35s cubic-bezier(.34,1.56,.64,1)}
+.stamp{position:absolute;top:-48px;right:40px;width:116px;height:116px;border-radius:50%;border:2px solid var(--accent);box-shadow:inset 0 0 0 5px #111,inset 0 0 0 6px var(--accent);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:var(--accent);background:rgba(17,17,17,.2);opacity:0;transform:rotate(-12deg) scale(1.6);transition:opacity .25s,transform .4s cubic-bezier(.34,1.56,.64,1);pointer-events:none}
+.stamp .a{font-size:10px;letter-spacing:.22em;font-weight:600}.stamp .b{font-family:var(--serif);font-size:22px;font-weight:500}.stamp .c{font-size:9px;letter-spacing:.2em;font-weight:600}
+.seen .h-case{color:var(--faint);text-decoration:line-through;text-decoration-thickness:2px}
+.seen .veil{opacity:1}.seen .tick{opacity:1;transform:scale(1)}
+.seen .stamp{opacity:1;transform:rotate(-12deg) scale(1)}
+.contact{padding:160px 24px 140px;text-align:center;display:flex;flex-direction:column;align-items:center}
+.contact h2{margin:0;font-family:var(--serif);font-weight:500;font-size:clamp(48px,6vw,84px);line-height:1;letter-spacing:-.025em}
+.contact p{margin:20px 0 0;max-width:520px;font-size:16px;line-height:1.6;color:var(--muted)}
+.contact .row{display:flex;gap:12px;margin-top:36px;flex-wrap:wrap;justify-content:center}
+.contact .addr{margin-top:16px;font-size:14px;color:var(--faint)}
+.contact .copy{margin-top:96px;font-size:12px;color:var(--faint)}
+
+/* view change */
+.view{animation:fade .45s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none !important;animation:none !important}}
+</style>
+</head>
+<body>
+
+<nav class="rail" id="rail" aria-label="Progress"></nav>
+<button type="button" class="pill-btn" data-scroll="contact" style="right:24px">Get in touch</button>
+<p class="open-roles"><i aria-hidden="true"></i>Open to full-time roles</p>
+
+<!-- HOME -->
+<main id="home" class="view">
+  <header id="intro" class="hero">
+    <p class="oval small">Portfolio · <b>2026</b></p>
+    <h1>Alyona Zhilina, product designer.<br><em>Here’s my work.</em></h1>
+    <p class="lede">Five years designing B2B and B2G products, now digital assessment at TAO.</p>
+    <div class="links">
+      <a class="ghost" href="mailto:iamalyonavad@gmail.com">Email me</a>
+      <a class="ghost" href="https://www.linkedin.com/in/alyonavad" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="ghost" href="#" onclick="return false">Résumé (PDF)</a>
+    </div>
+    <div class="postcard">
+      <div class="print"><img src="images/portrait.jpg" alt="Alyona Zhilina standing in front of a projection of pink blossoms"></div>
+      <p class="caption"><span>Madrid, 2026</span><span>open to full-time roles</span></p>
+    </div>
+  </header>
+  <div id="cases"></div>
+  <footer id="contact" class="contact">
+    <h2>That’s the tour. <em>Let’s talk.</em></h2>
+    <p>I’m looking for a full-time product design role. Based in Madrid, working in English, Spanish and Russian.</p>
+    <div class="row">
+      <a class="ghost" href="mailto:iamalyonavad@gmail.com">Email me</a>
+      <a class="ghost" href="https://www.linkedin.com/in/alyonavad" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="ghost" href="#" onclick="return false">Résumé (PDF)</a>
+    </div>
+    <p class="addr">iamalyonavad@gmail.com</p>
+    <p class="copy">© 2026 Alyona Zhilina</p>
+  </footer>
+</main>
+
+
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var store = {
+    get: function (k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } },
+    set: function (k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  };
+  var seen = store.get('az-seen') || {};
+  var today = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' }).toUpperCase();
+  var check = '<svg class="mark" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="8.2" stroke-width="1.4"></circle><path d="M5.2 9.3l2.4 2.3 5-5.2" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>';
+  var wave = '<svg class="connector" width="120" height="200" viewBox="0 0 120 200" aria-hidden="true"><path d="M62 4 C 30 30, 30 50, 64 74 S 96 120, 58 146 S 40 186, 60 198" fill="none" stroke="#4A4743" stroke-width="1.4" stroke-dasharray="4 6" stroke-linecap="round"></path></svg>';
+
+  /* ---------- home cases ---------- */
+  var cases = [
+    { id: 'ch1', img: 'palace.jpg', pos: 'center 40%', alt: 'Royal Palace of Madrid lit up at sunset' },
+    { id: 'ch2', img: 'bokeh.jpg', pos: 'center 45%', alt: 'Blurred street at dusk with soft city lights' },
+    { id: 'ch3', img: 'taberna.jpg', pos: 'center 38%', alt: 'Yellow tavern doorway with a tiled sign and pink bougainvillea' },
+    { id: 'ch4', img: 'palms.jpg', pos: 'center 62%', alt: 'Palm tree silhouettes against a dusk sky' }
+  ];
+  document.getElementById('cases').innerHTML = cases.map(function (c, i) {
+    var action = c.nda
+      ? '<a class="cta" href="mailto:iamalyonavad@gmail.com?subject=Access%20to%20the%20NDA%20case" data-mark="' + c.id + '">Request access<span aria-hidden="true">→</span></a>'
+      : '<button type="button" class="cta" data-open="' + c.id + '">Read more<span aria-hidden="true">→</span></button>';
+    return '<section class="case" id="' + c.id + '" aria-labelledby="' + c.id + '-t">' + wave +
+      '<p class="oval">' + (i + 1) + ' of 4 · <b>Title</b></p>' +
+      '<h2 class="h-case" id="' + c.id + '-t">[Case title] <em>[in italic]</em>.</h2>' +
+      '<p class="lede">[One or two lines about the case: the product, who it’s for, and your part in it.]</p>' +
+      '<div class="cover-wrap"><div class="cover">' +
+        '<img src="images/' + c.img + '" alt="' + c.alt + '" style="object-position:' + c.pos + '" loading="lazy">' +
+        (c.nda ? '<div class="dim"></div>' : '') +
+        '<div class="screen" role="img" aria-label="Screenshot placeholder for case ' + (i + 1) + '"><div class="slot"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#8E8A84" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"></rect><circle cx="9" cy="10" r="1.8"></circle><path d="M21 16l-5-5-8 9"></path></svg><b>Case ' + (i + 1) + ' screenshot</b></div></div>' +
+        '<div class="veil"></div><div class="tick" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M4 9.4l3.2 3.1L14 5.6" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>' +
+      '</div>' +
+      '<div class="stamp" aria-hidden="true"><span class="a">SEEN</span><span class="b">' + today + '</span><span class="c">BY YOU</span></div>' +
+      '<div class="panel">' +
+        '<p class="label">The challenge</p>' +
+        '<p class="text">' + (c.nda ? 'This one can’t live on a public page, but I’m happy to walk you through it on a call.' : '[The challenge in one sentence.]') + '</p>' +
+        '<div class="foot"><span class="tags"><span>[Platform]</span><span>[B2B / B2C]</span><span>[Industry]</span></span>' + action + '</div>' +
+      '</div></div></section>';
+  }).join('');
+
+  function paintSeen() {
+    cases.forEach(function (c) {
+      document.getElementById(c.id).classList.toggle('seen', !!seen[c.id]);
+    });
+  }
+  paintSeen();
+
+  /* ---------- rail ---------- */
+  var railSets = {
+    home: [['intro', 'Intro'], ['ch1', 'Project 1'], ['ch2', 'Project 2'], ['ch3', 'Project 3'], ['ch4', 'Project 4'], ['contact', 'Contact']],
+  };
+  var rail = document.getElementById('rail');
+  var current = 'home';
+  var caseNum = 1;
+  function buildRail() {
+    rail.innerHTML = railSets[current].map(function (r) {
+      return '<button type="button" data-scroll="' + r[0] + '" aria-label="' + r[1] + '">' + check + '<span class="tip">' + r[1] + '</span></button>';
+    }).join('');
+    updateRail();
+  }
+  var raf = null;
+  function updateRail() {
+    var line = window.innerHeight * 0.6;
+    var atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
+    Array.prototype.forEach.call(rail.children, function (b) {
+      var el = document.getElementById(b.getAttribute('data-scroll'));
+      var on = el && (el.getBoundingClientRect().top < line || atBottom);
+      b.classList.toggle('on', !!on);
+    });
+  }
+  window.addEventListener('scroll', function () {
+    if (raf) return;
+    raf = requestAnimationFrame(function () { raf = null; updateRail(); });
+  }, { passive: true });
+  window.addEventListener('resize', updateRail);
+
+  function scrollToId(id) {
+    var el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  }
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest('[data-scroll],[data-open],[data-mark]');
+    if (!t) return;
+    if (t.hasAttribute('data-scroll')) { e.preventDefault(); scrollToId(t.getAttribute('data-scroll')); return; }
+    var id = t.getAttribute('data-open') || t.getAttribute('data-mark');
+    seen[id] = !seen[id] || t.hasAttribute('data-mark');
+    store.set('az-seen', seen); paintSeen();
+  });
+  buildRail();
+  var h = (location.hash || '').slice(1);
+  if (h && document.getElementById(h)) requestAnimationFrame(function () { document.getElementById(h).scrollIntoView(); updateRail(); });
+})();
+</script>
+</body>
+</html>
